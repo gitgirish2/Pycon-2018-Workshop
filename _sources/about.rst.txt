@@ -8,6 +8,11 @@ About Me
 - I hate PPTS
 
 
+.. note ::
+
+    The code for the presentation will be uploaded on github. The snippets used in the docs are for presentation only.
+
+
 
 .. note ::
 
