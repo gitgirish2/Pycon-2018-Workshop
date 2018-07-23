@@ -55,7 +55,7 @@ Overloading operations such as indexing and iteration also enable instances of t
 Set class to often masquerade as real lists.
 
 Extending Types by Subclassing
--------------------------------
+------------------------------
 
 - Beginning with Python 2.2, all the built-in types in the language can now 
   be subclassed directly. 
