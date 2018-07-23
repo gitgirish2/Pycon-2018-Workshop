@@ -6,6 +6,11 @@
 PYCON 2018: ADVANCED OBJECT ORIENTED PROGRAMMING
 ================================================================
 
+.. note ::
+
+   The code for the presentation will be uploaded on github. The snippets used in the docs are for presentation only.
+
+
 .. toctree::
    :maxdepth: 3
    :caption: Contents:
