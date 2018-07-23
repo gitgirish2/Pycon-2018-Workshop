@@ -152,6 +152,11 @@ Consider the following code snippet
      |      builtins.object
 
 
+.. note :: 
+
+    From our above examples we learn that ``super()`` does not always necessarily mean calling the base class. It is calling the class that is next in line.
+
+
 
 
 

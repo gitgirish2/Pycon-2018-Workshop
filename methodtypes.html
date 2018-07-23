@@ -29,8 +29,8 @@
     <link rel="author" title="About these documents" href="about.html" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Extending Built-in Types" href="ExtendingBuiltin.html" />
-    <link rel="prev" title="About Me" href="about.html" /> 
+    <link rel="next" title="Data Models" href="datamodels.html" />
+    <link rel="prev" title="Extending Built-in Types" href="ExtendingBuiltin.html" /> 
 
   
   <script src="_static/js/modernizr.min.js"></script>
@@ -82,6 +82,9 @@
               <p class="caption"><span class="caption-text">Contents:</span></p>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="about.html">About Me</a></li>
+<li class="toctree-l1"><a class="reference internal" href="inheritanceintro.html">Introduction To Inheritance</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mro.html">Method Resolution Order</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ExtendingBuiltin.html">Extending Built-in Types</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Decorator Basics and Class Decorators</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#decorator-overview">Decorator Overview</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#out-of-the-box-function-decorators-that-can-come-in-handy">Out-of the box function decorators that can come in handy</a></li>
@@ -91,9 +94,11 @@
 <li class="toctree-l2"><a class="reference internal" href="#class-decorators">Class Decorators</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="ExtendingBuiltin.html">Extending Built-in Types</a></li>
-<li class="toctree-l1"><a class="reference internal" href="inheritanceintro.html">Introduction To Inheritance</a></li>
-<li class="toctree-l1"><a class="reference internal" href="mro.html">Method Resolution Order</a></li>
+<li class="toctree-l1"><a class="reference internal" href="datamodels.html">Data Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="metaclasses.html">Meta Classes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Factory.html">Design Patterns</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cleancode.html">Pointers to help you write clean code</a></li>
+<li class="toctree-l1"><a class="reference internal" href="conclusion.html">Conclusion</a></li>
 </ul>
 
             
@@ -165,13 +170,13 @@
 <p>Decorators provide a simple syntax for calling higher-order functions. By definition, a decorator is a function that takes another function and extends the behavior of the latter function without explicitly modifying it. Sounds confusing—but it’s really not, especially after we go over a number of examples.</p>
 <p>A simple example</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">wrapper</span><span class="p">(</span><span class="n">f</span><span class="p">):</span>
-<span class="k">def</span> <span class="nf">inner_func</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span><span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-    <span class="n">start_time</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
-    <span class="n">c</span> <span class="o">=</span>  <span class="n">f</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
-    <span class="n">end_time</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
-    <span class="k">print</span><span class="p">(</span><span class="n">end_time</span> <span class="o">-</span> <span class="n">start_time</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">c</span>
-<span class="k">return</span> <span class="n">inner_func</span>
+    <span class="k">def</span> <span class="nf">inner_func</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span><span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="n">start_time</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+        <span class="n">c</span> <span class="o">=</span>  <span class="n">f</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="n">end_time</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+        <span class="k">print</span><span class="p">(</span><span class="n">end_time</span> <span class="o">-</span> <span class="n">start_time</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">c</span>
+    <span class="k">return</span> <span class="n">inner_func</span>
 
 <span class="nd">@wrapper</span>
 <span class="k">def</span> <span class="nf">add</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">):</span>
@@ -326,10 +331,10 @@ logical part of the class this method is neither bound by an instance or a class
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="ExtendingBuiltin.html" class="btn btn-neutral float-right" title="Extending Built-in Types" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="datamodels.html" class="btn btn-neutral float-right" title="Data Models" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="about.html" class="btn btn-neutral" title="About Me" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="ExtendingBuiltin.html" class="btn btn-neutral" title="Extending Built-in Types" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   
