@@ -7,7 +7,7 @@ PYCON 2018: ADVANCED OBJECT ORIENTED PROGRAMMING
 ================================================================
 
 .. toctree::
-   :maxdepth: 2
+   :maxdepth: 3
    :caption: Contents:
 
    about

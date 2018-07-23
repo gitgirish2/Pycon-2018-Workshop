@@ -1,11 +1,12 @@
 About Me
-=========
+========
 
 - I code for a living
 - I am a Tech-Lead at NextOrbit
 - Technical Archtect at Code Matrix
 - I used to play badminton
-- I hate PPTs
+- I hate PPTS
+
 
 
 .. note ::
