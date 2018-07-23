@@ -1,0 +1,158 @@
+Method Resolution Order
+=======================
+
+**What is MRO?**
+
+
+    Defines the class search path used by Python to search for the right method to use in classes having multi-inheritance. 
+
+``"Inheritance is all fun and games until this case shows up."``
+
+.. code-block :: python
+
+    class A:
+        def hello(self):
+            print("I am A")
+
+    class B(A):
+        def hello(self):
+            print("I am B")
+
+    class C(A, B):
+       pass
+
+This is where the order in which classes are inherited fundamentally differs from Python2 and Python3
+
+- All classes in Python3 inherits from Python root object class. (New Style)
+- Python2 doesn't inherit from Python root object class unless explicitly specified(Old Style)
+
+.. code-block :: python
+
+    class A:
+        def hello(self):
+            print("I am A")
+
+    class B(A):
+        def hello(self):
+            print("I am B")
+
+    class C(A):
+        def hello(self):
+            print("I am C")
+
+    class D(B, C):
+        pass
+        # def hello(self):
+        #     print("I am D")
+
+    if __name__ == "__main__":
+        d = D()
+        d.hello()
+
+
+
+
+**In Python2.7**
+----------------
+>>> help(C)
+
+.. code-block :: python
+
+    # Output: I am B
+    
+    #Help on class D in module __main__:
+
+    class D(B, C)
+     |  Method resolution order:
+     |      D
+     |      B
+     |      A
+     |      C
+     |
+     |  Methods inherited from B:
+     |
+     |  hello(self)
+
+
+**In Python3**
+--------------
+
+>>> help(C)
+
+.. code-block :: python
+
+    #Help on class D in module __main__:
+
+    class D(B, C)
+     |  Method resolution order:
+     |      D
+     |      B
+     |      C
+     |      A
+     |      builtins.object
+     |
+     |  Methods inherited from B:
+     |
+     |  hello(self)
+
+
+From the above snippet you can see that the method resolution order is different.
+
+In the old Style MRO followed a depth first from Left to Right method and was not **Monotonic**
+
+**C3 Algorithm**
+----------------
+
+.. note::
+
+    C3 is the name of an algorithm which aims to provide a sane method resolution order under multiple inheritance. It was first introduced in the language Dylan (see links in the "SEE ALSO" section), and then later adopted as the preferred MRO (Method Resolution Order) for the new-style classes in Python 2.3. Most recently it has been adopted as the 'canonical' MRO for Perl 6 classes, and the default MRO for Parrot objects as well.
+
+
+Consider the following code snippet
+
+.. code-block :: python
+
+    class Soil(object):
+        pass
+    class Water(object):
+        pass
+    class Fruits(Soil,Water):
+        pass
+    class Vegetables(Soil,Water):
+        pass
+    class Tomato(Fruits,Vegetables):
+        pass
+    class Plate(Soil,Water):
+        pass
+    class Spoon(Soil,Water):
+        pass
+    class Cutlery(Plate,Spoon):
+        pass
+
+    class DiningTable(Tomato,Cutlery):
+        pass
+
+
+
+>>> help(DiningTable)
+
+.. code-block :: python
+
+        class DiningTable(Tomato, Cutlery)
+     |  Method resolution order:
+     |      DiningTable
+     |      Tomato
+     |      Fruits
+     |      Vegetables
+     |      Cutlery
+     |      Plate
+     |      Spoon
+     |      Soil
+     |      Water
+     |      builtins.object
+
+
+
+
+
+

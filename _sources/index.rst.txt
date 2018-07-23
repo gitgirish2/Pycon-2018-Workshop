@@ -1,0 +1,32 @@
+.. ADVANCED OBJECT ORIENTED PROGRAMMING documentation master file, created by
+   sphinx-quickstart on Sun Jul 22 23:30:28 2018.
+   You can adapt this file completely to your liking, but it should at least
+   contain the root `toctree` directive.
+
+PYCON 2018: ADVANCED OBJECT ORIENTED PROGRAMMING
+================================================================
+
+.. toctree::
+   :maxdepth: 2
+   :caption: Contents:
+
+   about
+   inheritanceintro
+   mro
+   ExtendingBuiltin
+   methodtypes
+   datamodels
+   metaclasses
+   Factory
+   cleancode
+   conclusion
+   
+
+   
+
+Indices and tables
+==================
+
+* :ref:`genindex`
+* :ref:`modindex`
+* :ref:`search`

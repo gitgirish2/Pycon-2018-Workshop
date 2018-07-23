@@ -1,0 +1,386 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Decorator Basics and Class Decorators &mdash; ADVANCED OBJECT ORIENTED PROGRAMMING  documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="author" title="About these documents" href="about.html" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Extending Built-in Types" href="ExtendingBuiltin.html" />
+    <link rel="prev" title="About Me" href="about.html" /> 
+
+  
+  <script src="_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="index.html" class="icon icon-home"> ADVANCED OBJECT ORIENTED PROGRAMMING
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="about.html">About Me</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Decorator Basics and Class Decorators</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#decorator-overview">Decorator Overview</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#out-of-the-box-function-decorators-that-can-come-in-handy">Out-of the box function decorators that can come in handy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#property-getters-setters-deleters">&#64;property -Getters, setters, deleters</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#classmethod">&#64;classmethod</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#staticmethod">&#64;staticmethod</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#class-decorators">Class Decorators</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="ExtendingBuiltin.html">Extending Built-in Types</a></li>
+<li class="toctree-l1"><a class="reference internal" href="inheritanceintro.html">Introduction To Inheritance</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mro.html">Method Resolution Order</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">ADVANCED OBJECT ORIENTED PROGRAMMING</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+      <li>Decorator Basics and Class Decorators</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/methodtypes.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="decorator-basics-and-class-decorators">
+<h1>Decorator Basics and Class Decorators<a class="headerlink" href="#decorator-basics-and-class-decorators" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="decorator-overview">
+<h2>Decorator Overview<a class="headerlink" href="#decorator-overview" title="Permalink to this headline">¶</a></h2>
+<p>Decorators provide a simple syntax for calling higher-order functions. By definition, a decorator is a function that takes another function and extends the behavior of the latter function without explicitly modifying it. Sounds confusing—but it’s really not, especially after we go over a number of examples.</p>
+<p>A simple example</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">wrapper</span><span class="p">(</span><span class="n">f</span><span class="p">):</span>
+<span class="k">def</span> <span class="nf">inner_func</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span><span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="n">start_time</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+    <span class="n">c</span> <span class="o">=</span>  <span class="n">f</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+    <span class="n">end_time</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+    <span class="k">print</span><span class="p">(</span><span class="n">end_time</span> <span class="o">-</span> <span class="n">start_time</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">c</span>
+<span class="k">return</span> <span class="n">inner_func</span>
+
+<span class="nd">@wrapper</span>
+<span class="k">def</span> <span class="nf">add</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">x</span> <span class="o">+</span> <span class="n">y</span>
+
+<span class="nd">@wrapper</span>
+<span class="k">def</span> <span class="nf">subtract</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">):</span>
+    <span class="k">return</span>  <span class="n">x</span> <span class="o">-</span> <span class="n">y</span>
+
+<span class="nb">sum</span> <span class="o">=</span> <span class="n">add</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span><span class="mi">10</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="nb">sum</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>A decorator is something that makes your code look clean and well written. In OOP decorators are common place. There are a few decorators that are provided out of the box from python. They are listed below.</p>
+<p><code class="docutils literal notranslate"><span class="pre">Decorators</span> <span class="pre">are</span> <span class="pre">elegant!</span> <span class="pre">Makes</span> <span class="pre">code</span> <span class="pre">look</span> <span class="pre">cleaner</span> <span class="pre">and</span> <span class="pre">trimmer</span></code></p>
+</div>
+<div class="section" id="out-of-the-box-function-decorators-that-can-come-in-handy">
+<h2>Out-of the box function decorators that can come in handy<a class="headerlink" href="#out-of-the-box-function-decorators-that-can-come-in-handy" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><code class="docutils literal notranslate"><span class="pre">&#64;property</span></code></li>
+<li><code class="docutils literal notranslate"><span class="pre">&#64;classmethod</span></code></li>
+<li><code class="docutils literal notranslate"><span class="pre">&#64;staticmethod</span></code></li>
+</ul>
+</div>
+<div class="section" id="property-getters-setters-deleters">
+<h2>&#64;property -Getters, setters, deleters<a class="headerlink" href="#property-getters-setters-deleters" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li>The property decorator allows us to define Class methods that we can
+access like attributes. This allows us to implement getters, setters, and deleters</li>
+</ul>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Employee</span><span class="p">:</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">first</span><span class="p">,</span> <span class="n">last</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">first</span> <span class="o">=</span> <span class="n">first</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">last</span> <span class="o">=</span> <span class="n">last</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">email</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s1">&#39;{}.{}@email.com&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">first</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">last</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">fullname</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s1">&#39;{} {}&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">first</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">last</span><span class="p">)</span>
+
+
+<span class="n">emp_1</span> <span class="o">=</span> <span class="n">Employee</span><span class="p">(</span><span class="s1">&#39;John&#39;</span><span class="p">,</span> <span class="s1">&#39;Smith&#39;</span><span class="p">)</span>
+
+<span class="k">print</span><span class="p">(</span><span class="n">emp_1</span><span class="o">.</span><span class="n">first</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="n">emp_1</span><span class="o">.</span><span class="n">email</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="n">emp_1</span><span class="o">.</span><span class="n">fullname</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="classmethod">
+<h2>&#64;classmethod<a class="headerlink" href="#classmethod" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li>Classmethods takes <code class="docutils literal notranslate"><span class="pre">cls</span></code> as a parameter instead of <code class="docutils literal notranslate"><span class="pre">self</span></code></li>
+<li>Classmethods don’t modify the state of the instance they modify class
+state and this change applies across all instances.</li>
+</ul>
+<p>A typical example of a function generated by <code class="docutils literal notranslate"><span class="pre">&#64;classmethod</span></code> decorator</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="nd">@classmethod</span>
+<span class="k">def</span> <span class="nf">increase_count</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span><span class="n">counter</span><span class="p">):</span>
+    <span class="bp">cls</span><span class="o">.</span><span class="n">counter</span> <span class="o">+=</span> <span class="n">counter</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="staticmethod">
+<h2>&#64;staticmethod<a class="headerlink" href="#staticmethod" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li>Staticmethod is a method that takes no parameter but is still is a
+logical part of the class this method is neither bound by an instance or a class</li>
+</ul>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="nd">@staticmethod</span>
+<span class="k">def</span> <span class="nf">is_holiday</span><span class="p">(</span><span class="n">day</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">day</span><span class="o">.</span><span class="n">weekday</span><span class="p">()</span> <span class="o">==</span> <span class="mi">5</span> <span class="ow">or</span> <span class="n">day</span><span class="o">.</span><span class="n">weekday</span><span class="p">()</span> <span class="o">==</span> <span class="mi">6</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">True</span>
+    <span class="k">return</span> <span class="bp">False</span>
+</pre></div>
+</div>
+<p>A combined example is shown below</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1">#Class Method as a constructor</span>
+
+
+<span class="kn">import</span> <span class="nn">datetime</span>
+
+<span class="k">class</span> <span class="nc">DateTimeParser</span><span class="p">:</span>
+    <span class="n">counter</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">d</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span><span class="n">m</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span><span class="n">y</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">d</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">m</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">y</span> <span class="o">=</span> <span class="n">d</span><span class="p">,</span><span class="n">m</span><span class="p">,</span><span class="n">y</span>
+
+
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">parse</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span><span class="n">datestring</span><span class="p">):</span>
+        <span class="n">date</span><span class="p">,</span><span class="n">month</span><span class="p">,</span><span class="n">year</span> <span class="o">=</span> <span class="n">datestring</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;/&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="n">date</span><span class="p">,</span><span class="n">month</span><span class="p">,</span><span class="n">year</span><span class="p">)</span>
+
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">increase_count</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span><span class="n">counter</span><span class="p">):</span>
+        <span class="bp">cls</span><span class="o">.</span><span class="n">counter</span> <span class="o">+=</span> <span class="n">counter</span>
+
+
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">is_holiday</span><span class="p">(</span><span class="n">day</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">day</span><span class="o">.</span><span class="n">weekday</span><span class="p">()</span> <span class="o">==</span> <span class="mi">5</span> <span class="ow">or</span> <span class="n">day</span><span class="o">.</span><span class="n">weekday</span><span class="p">()</span> <span class="o">==</span> <span class="mi">6</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">True</span>
+        <span class="k">return</span> <span class="bp">False</span>
+
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+    <span class="n">date1</span> <span class="o">=</span> <span class="n">DateTimeParser</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="s2">&quot;12/05/2015&quot;</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="n">DateTimeParser</span><span class="p">()</span><span class="o">.</span><span class="n">counter</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="n">date1</span><span class="o">.</span><span class="n">counter</span><span class="p">)</span>
+
+    <span class="n">DateTimeParser</span><span class="p">()</span><span class="o">.</span><span class="n">increase_count</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="n">date1</span><span class="o">.</span><span class="n">counter</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="n">DateTimeParser</span><span class="p">()</span><span class="o">.</span><span class="n">counter</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="class-decorators">
+<h2>Class Decorators<a class="headerlink" href="#class-decorators" title="Permalink to this headline">¶</a></h2>
+<blockquote>
+<div>Class decorators are similar to function decorators, but they are run at the end of a class statement to rebind a class name to a callable. As such, they can be used to either manage classes just after they are created, or insert a layer of wrapper logic to manage instances when they are later created.</div></blockquote>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">decorator</span><span class="p">(</span><span class="bp">cls</span><span class="p">):</span> <span class="c1"># On @ decoration</span>
+     <span class="k">class</span> <span class="nc">Proxy</span><span class="p">:</span>
+         <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">):</span> <span class="c1"># On instance creation: make a cls</span>
+             <span class="bp">self</span><span class="o">.</span><span class="n">wrapped</span> <span class="o">=</span> <span class="bp">cls</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">)</span>
+         <span class="k">def</span> <span class="fm">__getattr__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span> <span class="c1"># On attribute fetch: extra ops</span>
+             <span class="k">return</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">wrapped</span><span class="p">,</span> <span class="n">name</span><span class="p">)</span>
+         <span class="k">return</span> <span class="n">Proxy</span>
+
+<span class="nd">@decorator</span>
+<span class="k">class</span> <span class="nc">C</span><span class="p">:</span>
+    <span class="k">pass</span>
+
+<span class="n">x</span> <span class="o">=</span> <span class="n">C</span><span class="p">()</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Work in progress</p>
+</div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="ExtendingBuiltin.html" class="btn btn-neutral float-right" title="Extending Built-in Types" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="about.html" class="btn btn-neutral" title="About Me" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2018, VISHNUKIRAN K V.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'./',
+            VERSION:'',
+            LANGUAGE:'None',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="_static/jquery.js"></script>
+      <script type="text/javascript" src="_static/underscore.js"></script>
+      <script type="text/javascript" src="_static/doctools.js"></script>
+
+  
+
+  <script type="text/javascript" src="_static/js/theme.js"></script>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

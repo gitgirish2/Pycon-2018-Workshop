@@ -1,0 +1,354 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Design Patterns &mdash; ADVANCED OBJECT ORIENTED PROGRAMMING  documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="author" title="About these documents" href="about.html" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Pointers to help you write clean code" href="cleancode.html" />
+    <link rel="prev" title="Meta Classes" href="metaclasses.html" /> 
+
+  
+  <script src="_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="index.html" class="icon icon-home"> ADVANCED OBJECT ORIENTED PROGRAMMING
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="about.html">About Me</a></li>
+<li class="toctree-l1"><a class="reference internal" href="inheritanceintro.html">Introduction To Inheritance</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mro.html">Method Resolution Order</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ExtendingBuiltin.html">Extending Built-in Types</a></li>
+<li class="toctree-l1"><a class="reference internal" href="methodtypes.html">Decorator Basics and Class Decorators</a></li>
+<li class="toctree-l1"><a class="reference internal" href="datamodels.html">Data Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="metaclasses.html">Meta Classes</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Design Patterns</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#factory-design-pattern">Factory Design Pattern</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#singleton">Singleton</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="cleancode.html">Pointers to help you write clean code</a></li>
+<li class="toctree-l1"><a class="reference internal" href="conclusion.html">Conclusion</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">ADVANCED OBJECT ORIENTED PROGRAMMING</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+      <li>Design Patterns</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/Factory.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="design-patterns">
+<h1>Design Patterns<a class="headerlink" href="#design-patterns" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="factory-design-pattern">
+<h2>Factory Design Pattern<a class="headerlink" href="#factory-design-pattern" title="Permalink to this headline">¶</a></h2>
+<p><strong>Objective</strong></p>
+<blockquote>
+<div><ol class="arabic simple">
+<li>Define an interface for creating an object, but let subclasses decide which class to instantiate. Factory Method lets a class defer instantiation to subclasses.</li>
+<li>Defining a “virtual” constructor.</li>
+</ol>
+</div></blockquote>
+<p>A superclass specifies all standard and generic behavior (using pure virtual “placeholders” for creation steps), and then delegates the creation details to subclasses that are supplied by the client.</p>
+<p><strong>Structure</strong></p>
+<blockquote>
+<div><img alt="https://sourcemaking.com/files/v2/content/patterns/Factory_Method-2x.png" src="https://sourcemaking.com/files/v2/content/patterns/Factory_Method-2x.png" />
+<img alt="https://sourcemaking.com/files/v2/content/patterns/Factory_Method_1-2x.png" src="https://sourcemaking.com/files/v2/content/patterns/Factory_Method_1-2x.png" />
+</div></blockquote>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Factory/shapefact1/ShapeFactory1.py</span>
+<span class="c1"># A simple static factory method.</span>
+<span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">generators</span>
+<span class="kn">import</span> <span class="nn">random</span>
+
+<span class="k">class</span> <span class="nc">Shape</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="c1"># Create based on class name:</span>
+    <span class="k">def</span> <span class="nf">factory</span><span class="p">(</span><span class="nb">type</span><span class="p">):</span>
+        <span class="c1">#return eval(type + &quot;()&quot;)</span>
+        <span class="k">if</span> <span class="nb">type</span> <span class="o">==</span> <span class="s2">&quot;Circle&quot;</span><span class="p">:</span> <span class="k">return</span> <span class="n">Circle</span><span class="p">()</span>
+        <span class="k">if</span> <span class="nb">type</span> <span class="o">==</span> <span class="s2">&quot;Square&quot;</span><span class="p">:</span> <span class="k">return</span> <span class="n">Square</span><span class="p">()</span>
+        <span class="k">assert</span> <span class="mi">0</span><span class="p">,</span> <span class="s2">&quot;Bad shape creation: &quot;</span> <span class="o">+</span> <span class="nb">type</span>
+    <span class="n">factory</span> <span class="o">=</span> <span class="nb">staticmethod</span><span class="p">(</span><span class="n">factory</span><span class="p">)</span>
+
+<span class="k">class</span> <span class="nc">Circle</span><span class="p">(</span><span class="n">Shape</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">draw</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span> <span class="k">print</span><span class="p">(</span><span class="s2">&quot;Circle.draw&quot;</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">erase</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span> <span class="k">print</span><span class="p">(</span><span class="s2">&quot;Circle.erase&quot;</span><span class="p">)</span>
+
+<span class="k">class</span> <span class="nc">Square</span><span class="p">(</span><span class="n">Shape</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">draw</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span> <span class="k">print</span><span class="p">(</span><span class="s2">&quot;Square.draw&quot;</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">erase</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span> <span class="k">print</span><span class="p">(</span><span class="s2">&quot;Square.erase&quot;</span><span class="p">)</span>
+
+<span class="c1"># Generate shape name strings:</span>
+<span class="k">def</span> <span class="nf">shapeNameGen</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+    <span class="n">types</span> <span class="o">=</span> <span class="n">Shape</span><span class="o">.</span><span class="n">__subclasses__</span><span class="p">()</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+        <span class="k">yield</span> <span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="n">types</span><span class="p">)</span><span class="o">.</span><span class="vm">__name__</span>
+
+<span class="n">shapes</span> <span class="o">=</span> \
+  <span class="p">[</span> <span class="n">Shape</span><span class="o">.</span><span class="n">factory</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">shapeNameGen</span><span class="p">(</span><span class="mi">7</span><span class="p">)]</span>
+
+<span class="k">for</span> <span class="n">shape</span> <span class="ow">in</span> <span class="n">shapes</span><span class="p">:</span>
+    <span class="n">shape</span><span class="o">.</span><span class="n">draw</span><span class="p">()</span>
+    <span class="n">shape</span><span class="o">.</span><span class="n">erase</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="singleton">
+<h2>Singleton<a class="headerlink" href="#singleton" title="Permalink to this headline">¶</a></h2>
+<p><strong>Intent</strong></p>
+<blockquote>
+<div><ol class="arabic simple">
+<li>Ensure a class has only one instance, and provide a global point of access to it.</li>
+<li>Encapsulated “just-in-time initialization” or “initialization on first use”.</li>
+</ol>
+</div></blockquote>
+<p>Singleton should be considered only if all three of the following criteria are satisfied:</p>
+<blockquote>
+<div><ol class="arabic simple">
+<li>Ownership of the single instance cannot be reasonably assigned</li>
+<li>Lazy initialization is desirable</li>
+<li>Global access is not otherwise provided for</li>
+</ol>
+</div></blockquote>
+<p><strong>Structure</strong></p>
+<blockquote>
+<div><img alt="https://sourcemaking.com/files/v2/content/patterns/singleton1-2x.png" src="https://sourcemaking.com/files/v2/content/patterns/singleton1-2x.png" />
+</div></blockquote>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># http://code.activestate.com/recipes/52558-the-singleton-pattern-implemented-with-python/</span>
+<span class="k">class</span> <span class="nc">Singleton</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot; A python singleton &quot;&quot;&quot;</span>
+
+        <span class="k">class</span> <span class="nc">__impl</span><span class="p">:</span>
+            <span class="sd">&quot;&quot;&quot; Implementation of the singleton interface &quot;&quot;&quot;</span>
+
+            <span class="k">def</span> <span class="nf">spam</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+                <span class="sd">&quot;&quot;&quot; Test method, return singleton id &quot;&quot;&quot;</span>
+                <span class="k">return</span> <span class="nb">id</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+
+        <span class="c1"># storage for the instance reference</span>
+        <span class="n">__instance</span> <span class="o">=</span> <span class="bp">None</span>
+
+        <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+            <span class="sd">&quot;&quot;&quot; Create singleton instance &quot;&quot;&quot;</span>
+            <span class="c1"># Check whether we already have an instance</span>
+            <span class="k">if</span> <span class="n">Singleton</span><span class="o">.</span><span class="n">__instance</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+                <span class="c1"># Create and remember instance</span>
+                <span class="n">Singleton</span><span class="o">.</span><span class="n">__instance</span> <span class="o">=</span> <span class="n">Singleton</span><span class="o">.</span><span class="n">__impl</span><span class="p">()</span>
+
+            <span class="c1"># Store instance reference as the only member in the handle</span>
+            <span class="bp">self</span><span class="o">.</span><span class="vm">__dict__</span><span class="p">[</span><span class="s1">&#39;_Singleton__instance&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">Singleton</span><span class="o">.</span><span class="n">__instance</span>
+
+        <span class="k">def</span> <span class="fm">__getattr__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">attr</span><span class="p">):</span>
+            <span class="sd">&quot;&quot;&quot; Delegate access to implementation &quot;&quot;&quot;</span>
+            <span class="k">return</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__instance</span><span class="p">,</span> <span class="n">attr</span><span class="p">)</span>
+
+        <span class="k">def</span> <span class="fm">__setattr__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">attr</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+            <span class="sd">&quot;&quot;&quot; Delegate access to implementation &quot;&quot;&quot;</span>
+            <span class="k">return</span> <span class="nb">setattr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__instance</span><span class="p">,</span> <span class="n">attr</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
+
+
+<span class="c1"># Test it</span>
+<span class="n">s1</span> <span class="o">=</span> <span class="n">Singleton</span><span class="p">()</span>
+<span class="k">print</span> <span class="nb">id</span><span class="p">(</span><span class="n">s1</span><span class="p">),</span> <span class="n">s1</span><span class="o">.</span><span class="n">spam</span><span class="p">()</span>
+
+<span class="n">s2</span> <span class="o">=</span> <span class="n">Singleton</span><span class="p">()</span>
+<span class="k">print</span> <span class="nb">id</span><span class="p">(</span><span class="n">s2</span><span class="p">),</span> <span class="n">s2</span><span class="o">.</span><span class="n">spam</span><span class="p">()</span>
+
+<span class="c1"># Sample output, the second (inner) id is constant:</span>
+<span class="c1"># 8172684 8176268</span>
+<span class="c1"># 8168588 8176268</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">The inner class is not REALLY hidden. But some extra effort is required to break into the singleton</p>
+</div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="cleancode.html" class="btn btn-neutral float-right" title="Pointers to help you write clean code" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="metaclasses.html" class="btn btn-neutral" title="Meta Classes" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2018, VISHNUKIRAN K V.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'./',
+            VERSION:'',
+            LANGUAGE:'None',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="_static/jquery.js"></script>
+      <script type="text/javascript" src="_static/underscore.js"></script>
+      <script type="text/javascript" src="_static/doctools.js"></script>
+
+  
+
+  <script type="text/javascript" src="_static/js/theme.js"></script>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

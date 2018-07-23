@@ -1,0 +1,87 @@
+Introduction To Inheritance
+===========================================
+
+It refers to defining a new class with little or no modification to an existing class. The new class is called derived (or child) class and the one from which it inherits is called the base (or parent) class.
+
+
+.. code-block :: python
+
+    class A(object):
+        def hello()
+            print("hello")
+
+    class B(A):
+        pass
+    if __name__ == "__main__":
+        B().hello()
+
+    # Output : hello
+
+
+Method Overriding in Python
+---------------------------
+
+When the definition of a method extended from a parent class is changed in the sub class the method is said to be overridden.
+
+
+
+.. code-block :: python
+
+    class A(object):
+        def hello(self)
+            print("hello")
+
+    class B(A):
+        def hello(self):
+            print("Hi")
+    if __name__ == "__main__":
+        B().hello()
+
+    # Output : hi
+
+
+Multiple Inheritance in Python
+------------------------------
+
+The ability to inherit multiple classes is called multiple inheritance.
+
+
+
+.. code-block :: python
+
+	class Base1:
+	    pass
+
+	class Base2:
+	    pass
+
+	class MultiDerived(Base1, Base2):
+	    pass
+
+
+Multi-Level Inheritance in Python
+---------------------------------
+
+A class can also inherit from a derived class and this can extend to any number of  levels.
+
+In multilevel inheritance, features of the base class and the derived class is inherited into the new derived class.
+
+.. code-block :: python
+
+	class Base1:
+	    pass
+
+	class Base2(Base1):
+	    pass
+
+	class MultiDerived(Base2):
+	    pass
+
+
+
+
+
+
+
+
+

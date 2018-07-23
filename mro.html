@@ -1,0 +1,361 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Method Resolution Order &mdash; ADVANCED OBJECT ORIENTED PROGRAMMING  documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="author" title="About these documents" href="about.html" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Extending Types by Embedding" href="ExtendingBuiltin.html" />
+    <link rel="prev" title="Introduction To Inheritance" href="inheritanceintro.html" /> 
+
+  
+  <script src="_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="index.html" class="icon icon-home"> ADVANCED OBJECT ORIENTED PROGRAMMING
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="about.html">About Me</a></li>
+<li class="toctree-l1"><a class="reference internal" href="inheritanceintro.html">Introduction To Inheritance</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Method Resolution Order</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#in-python2-7"><strong>In Python2.7</strong></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#in-python3"><strong>In Python3</strong></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#c3-algorithm"><strong>C3 Algorithm</strong></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="ExtendingBuiltin.html">Extending Types by Embedding</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ExtendingBuiltin.html#extending-types-by-subclassing">Extending Types by Subclassing</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">ADVANCED OBJECT ORIENTED PROGRAMMING</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+      <li>Method Resolution Order</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/mro.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="method-resolution-order">
+<h1>Method Resolution Order<a class="headerlink" href="#method-resolution-order" title="Permalink to this headline">¶</a></h1>
+<p><strong>What is MRO?</strong></p>
+<blockquote>
+<div>Defines the class search path used by Python to search for the right method to use in classes having multi-inheritance.</div></blockquote>
+<p><code class="docutils literal notranslate"><span class="pre">&quot;Inheritance</span> <span class="pre">is</span> <span class="pre">all</span> <span class="pre">fun</span> <span class="pre">and</span> <span class="pre">games</span> <span class="pre">until</span> <span class="pre">this</span> <span class="pre">case</span> <span class="pre">shows</span> <span class="pre">up.&quot;</span></code></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">A</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">hello</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">print</span><span class="p">(</span><span class="s2">&quot;I am A&quot;</span><span class="p">)</span>
+
+<span class="k">class</span> <span class="nc">B</span><span class="p">(</span><span class="n">A</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">hello</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">print</span><span class="p">(</span><span class="s2">&quot;I am B&quot;</span><span class="p">)</span>
+
+<span class="k">class</span> <span class="nc">C</span><span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="n">B</span><span class="p">):</span>
+   <span class="k">pass</span>
+</pre></div>
+</div>
+<p>This is where the order in which classes are inherited fundamentally differs from Python2 and Python3</p>
+<ul class="simple">
+<li>All classes in Python3 inherits from Python root object class. (New Style)</li>
+<li>Python2 doesn’t inherit from Python root object class unless explicitly specified(Old Style)</li>
+</ul>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">A</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">hello</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">print</span><span class="p">(</span><span class="s2">&quot;I am A&quot;</span><span class="p">)</span>
+
+<span class="k">class</span> <span class="nc">B</span><span class="p">(</span><span class="n">A</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">hello</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">print</span><span class="p">(</span><span class="s2">&quot;I am B&quot;</span><span class="p">)</span>
+
+<span class="k">class</span> <span class="nc">C</span><span class="p">(</span><span class="n">A</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">hello</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">print</span><span class="p">(</span><span class="s2">&quot;I am C&quot;</span><span class="p">)</span>
+
+<span class="k">class</span> <span class="nc">D</span><span class="p">(</span><span class="n">B</span><span class="p">,</span> <span class="n">C</span><span class="p">):</span>
+    <span class="k">pass</span>
+    <span class="c1"># def hello(self):</span>
+    <span class="c1">#     print(&quot;I am D&quot;)</span>
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+    <span class="n">d</span> <span class="o">=</span> <span class="n">D</span><span class="p">()</span>
+    <span class="n">d</span><span class="o">.</span><span class="n">hello</span><span class="p">()</span>
+</pre></div>
+</div>
+<div class="section" id="in-python2-7">
+<h2><strong>In Python2.7</strong><a class="headerlink" href="#in-python2-7" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">help</span><span class="p">(</span><span class="n">C</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Output: I am B</span>
+
+<span class="c1">#Help on class D in module __main__:</span>
+
+<span class="k">class</span> <span class="nc">D</span><span class="p">(</span><span class="n">B</span><span class="p">,</span> <span class="n">C</span><span class="p">)</span>
+ <span class="o">|</span>  <span class="n">Method</span> <span class="n">resolution</span> <span class="n">order</span><span class="p">:</span>
+ <span class="o">|</span>      <span class="n">D</span>
+ <span class="o">|</span>      <span class="n">B</span>
+ <span class="o">|</span>      <span class="n">A</span>
+ <span class="o">|</span>      <span class="n">C</span>
+ <span class="o">|</span>
+ <span class="o">|</span>  <span class="n">Methods</span> <span class="n">inherited</span> <span class="kn">from</span> <span class="nn">B</span><span class="p">:</span>
+ <span class="o">|</span>
+ <span class="o">|</span>  <span class="n">hello</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="in-python3">
+<h2><strong>In Python3</strong><a class="headerlink" href="#in-python3" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">help</span><span class="p">(</span><span class="n">C</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1">#Help on class D in module __main__:</span>
+
+<span class="k">class</span> <span class="nc">D</span><span class="p">(</span><span class="n">B</span><span class="p">,</span> <span class="n">C</span><span class="p">)</span>
+ <span class="o">|</span>  <span class="n">Method</span> <span class="n">resolution</span> <span class="n">order</span><span class="p">:</span>
+ <span class="o">|</span>      <span class="n">D</span>
+ <span class="o">|</span>      <span class="n">B</span>
+ <span class="o">|</span>      <span class="n">C</span>
+ <span class="o">|</span>      <span class="n">A</span>
+ <span class="o">|</span>      <span class="n">builtins</span><span class="o">.</span><span class="n">object</span>
+ <span class="o">|</span>
+ <span class="o">|</span>  <span class="n">Methods</span> <span class="n">inherited</span> <span class="kn">from</span> <span class="nn">B</span><span class="p">:</span>
+ <span class="o">|</span>
+ <span class="o">|</span>  <span class="n">hello</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>From the above snippet you can see that the method resolution order is different.</p>
+<p>In the old Style MRO followed a depth first from Left to Right method and was not <strong>Monotonic</strong></p>
+</div>
+<div class="section" id="c3-algorithm">
+<h2><strong>C3 Algorithm</strong><a class="headerlink" href="#c3-algorithm" title="Permalink to this headline">¶</a></h2>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">C3 is the name of an algorithm which aims to provide a sane method resolution order under multiple inheritance. It was first introduced in the language Dylan (see links in the “SEE ALSO” section), and then later adopted as the preferred MRO (Method Resolution Order) for the new-style classes in Python 2.3. Most recently it has been adopted as the ‘canonical’ MRO for Perl 6 classes, and the default MRO for Parrot objects as well.</p>
+</div>
+<p>Consider the following code snippet</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Soil</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="k">pass</span>
+<span class="k">class</span> <span class="nc">Water</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="k">pass</span>
+<span class="k">class</span> <span class="nc">Fruits</span><span class="p">(</span><span class="n">Soil</span><span class="p">,</span><span class="n">Water</span><span class="p">):</span>
+    <span class="k">pass</span>
+<span class="k">class</span> <span class="nc">Vegetables</span><span class="p">(</span><span class="n">Soil</span><span class="p">,</span><span class="n">Water</span><span class="p">):</span>
+    <span class="k">pass</span>
+<span class="k">class</span> <span class="nc">Tomato</span><span class="p">(</span><span class="n">Fruits</span><span class="p">,</span><span class="n">Vegetables</span><span class="p">):</span>
+    <span class="k">pass</span>
+<span class="k">class</span> <span class="nc">Plate</span><span class="p">(</span><span class="n">Soil</span><span class="p">,</span><span class="n">Water</span><span class="p">):</span>
+    <span class="k">pass</span>
+<span class="k">class</span> <span class="nc">Spoon</span><span class="p">(</span><span class="n">Soil</span><span class="p">,</span><span class="n">Water</span><span class="p">):</span>
+    <span class="k">pass</span>
+<span class="k">class</span> <span class="nc">Cutlery</span><span class="p">(</span><span class="n">Plate</span><span class="p">,</span><span class="n">Spoon</span><span class="p">):</span>
+    <span class="k">pass</span>
+
+<span class="k">class</span> <span class="nc">DiningTable</span><span class="p">(</span><span class="n">Tomato</span><span class="p">,</span><span class="n">Cutlery</span><span class="p">):</span>
+    <span class="k">pass</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">help</span><span class="p">(</span><span class="n">DiningTable</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span>   <span class="k">class</span> <span class="nc">DiningTable</span><span class="p">(</span><span class="n">Tomato</span><span class="p">,</span> <span class="n">Cutlery</span><span class="p">)</span>
+<span class="o">|</span>  <span class="n">Method</span> <span class="n">resolution</span> <span class="n">order</span><span class="p">:</span>
+<span class="o">|</span>      <span class="n">DiningTable</span>
+<span class="o">|</span>      <span class="n">Tomato</span>
+<span class="o">|</span>      <span class="n">Fruits</span>
+<span class="o">|</span>      <span class="n">Vegetables</span>
+<span class="o">|</span>      <span class="n">Cutlery</span>
+<span class="o">|</span>      <span class="n">Plate</span>
+<span class="o">|</span>      <span class="n">Spoon</span>
+<span class="o">|</span>      <span class="n">Soil</span>
+<span class="o">|</span>      <span class="n">Water</span>
+<span class="o">|</span>      <span class="n">builtins</span><span class="o">.</span><span class="n">object</span>
+</pre></div>
+</div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="ExtendingBuiltin.html" class="btn btn-neutral float-right" title="Extending Types by Embedding" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="inheritanceintro.html" class="btn btn-neutral" title="Introduction To Inheritance" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2018, VISHNUKIRAN K V.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'./',
+            VERSION:'',
+            LANGUAGE:'None',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="_static/jquery.js"></script>
+      <script type="text/javascript" src="_static/underscore.js"></script>
+      <script type="text/javascript" src="_static/doctools.js"></script>
+
+  
+
+  <script type="text/javascript" src="_static/js/theme.js"></script>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

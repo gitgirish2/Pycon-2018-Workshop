@@ -1,0 +1,144 @@
+
+Design Patterns
+======================
+
+
+Factory Design Pattern
+----------------------
+
+**Objective**
+    
+   1. Define an interface for creating an object, but let subclasses decide which class to instantiate. Factory Method lets a class defer instantiation to subclasses.
+
+   2. Defining a "virtual" constructor.
+
+
+
+A superclass specifies all standard and generic behavior (using pure virtual "placeholders" for creation steps), and then delegates the creation details to subclasses that are supplied by the client.
+
+
+**Structure**
+
+        .. image:: https://sourcemaking.com/files/v2/content/patterns/Factory_Method-2x.png
+
+
+    
+        .. image:: https://sourcemaking.com/files/v2/content/patterns/Factory_Method_1-2x.png
+
+
+.. code-block :: python
+
+    # Factory/shapefact1/ShapeFactory1.py
+    # A simple static factory method.
+    from __future__ import generators
+    import random
+
+    class Shape(object):
+        # Create based on class name:
+        def factory(type):
+            #return eval(type + "()")
+            if type == "Circle": return Circle()
+            if type == "Square": return Square()
+            assert 0, "Bad shape creation: " + type
+        factory = staticmethod(factory)
+
+    class Circle(Shape):
+        def draw(self): print("Circle.draw")
+        def erase(self): print("Circle.erase")
+
+    class Square(Shape):
+        def draw(self): print("Square.draw")
+        def erase(self): print("Square.erase")
+
+    # Generate shape name strings:
+    def shapeNameGen(n):
+        types = Shape.__subclasses__()
+        for i in range(n):
+            yield random.choice(types).__name__
+
+    shapes = \
+      [ Shape.factory(i) for i in shapeNameGen(7)]
+
+    for shape in shapes:
+        shape.draw()
+        shape.erase()  
+
+
+
+Singleton
+----------
+
+**Intent**
+    
+   1. Ensure a class has only one instance, and provide a global point of access to it. 
+
+   2. Encapsulated "just-in-time initialization" or "initialization on first use".
+
+Singleton should be considered only if all three of the following criteria are satisfied:
+
+    1. Ownership of the single instance cannot be reasonably assigned
+
+    2. Lazy initialization is desirable
+
+    3. Global access is not otherwise provided for
+
+
+**Structure**
+
+        .. image:: https://sourcemaking.com/files/v2/content/patterns/singleton1-2x.png
+
+.. code-block :: python
+
+
+    # http://code.activestate.com/recipes/52558-the-singleton-pattern-implemented-with-python/
+    class Singleton:
+        """ A python singleton """
+    
+            class __impl:
+                """ Implementation of the singleton interface """
+    
+                def spam(self):
+                    """ Test method, return singleton id """
+                    return id(self)
+        
+            # storage for the instance reference
+            __instance = None
+        
+            def __init__(self):
+                """ Create singleton instance """
+                # Check whether we already have an instance
+                if Singleton.__instance is None:
+                    # Create and remember instance
+                    Singleton.__instance = Singleton.__impl()
+    
+                # Store instance reference as the only member in the handle
+                self.__dict__['_Singleton__instance'] = Singleton.__instance
+        
+            def __getattr__(self, attr):
+                """ Delegate access to implementation """
+                return getattr(self.__instance, attr)
+        
+            def __setattr__(self, attr, value):
+                """ Delegate access to implementation """
+                return setattr(self.__instance, attr, value)
+
+
+    # Test it
+    s1 = Singleton()
+    print id(s1), s1.spam()
+
+    s2 = Singleton()
+    print id(s2), s2.spam()
+
+    # Sample output, the second (inner) id is constant:
+    # 8172684 8176268
+    # 8168588 8176268
+
+.. note ::
+
+    The inner class is not REALLY hidden. But some extra effort is required to break into the singleton
+
+
+
+
+

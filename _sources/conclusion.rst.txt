@@ -1,0 +1,14 @@
+Conclusion
+==========
+
+References
+----------
+
+- Learning Python : Mark Lutz
+- https://docs.python.org/3.7/
+- http://code.activestate.com/recipes/52558-the-singleton-pattern-implemented-with-python/
+
+
+.. note ::
+
+    Work in progress.

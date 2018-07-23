@@ -1,0 +1,6 @@
+Pointers to help you write clean code
+=====================================
+
+.. note ::
+
+    Work in progress.
