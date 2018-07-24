@@ -87,7 +87,10 @@
 <li class="toctree-l1"><a class="reference internal" href="ExtendingBuiltin.html">Extending Built-in Types</a></li>
 <li class="toctree-l1"><a class="reference internal" href="methodtypes.html">Decorator Basics and Class Decorators</a></li>
 <li class="toctree-l1"><a class="reference internal" href="datamodels.html">Data Models</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">Meta Classes</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Meta Classes</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#preliminaries">Preliminaries</a></li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="Factory.html">Design Patterns</a></li>
 <li class="toctree-l1"><a class="reference internal" href="cleancode.html">Pointers to help you write clean code</a></li>
 <li class="toctree-l1"><a class="reference internal" href="conclusion.html">Conclusion</a></li>
@@ -158,6 +161,55 @@
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
 <p class="last">Work in progress.</p>
+</div>
+<div class="section" id="preliminaries">
+<h2>Preliminaries<a class="headerlink" href="#preliminaries" title="Permalink to this headline">¶</a></h2>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">[Metaclasses] are deeper magic than 99% of users should ever worry about. If    you wonder whether you need them, you don’t (the people who actually need th    em</p>
+</div>
+<p><strong>When will you need it:</strong></p>
+<ul class="simple">
+<li>When you develop a library or an API that will be used by people.</li>
+<li>When you want to enforce a coding standard in a huge application.</li>
+<li>They can be used to enhance classes with features like tracing, object persis   tence, exception logging</li>
+</ul>
+<p><strong>If this is the case why bother understand it?</strong></p>
+<p>It demystifies the underlying working of python classes.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Classes Are Instances of type</p>
+</div>
+<ul class="simple">
+<li>In Python 3.X, user-defined class objects are instances of the object named ty  pe,which is itself a class.</li>
+<li>In Python 2.X, new-style classes inherit from object, which is a subclass of t  ype;classic classes are instances of type and are not created from a class.</li>
+</ul>
+<p>Their differences are highlighted in the following code-snippet.</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">python3</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="nb">type</span><span class="p">([]),</span> <span class="nb">type</span><span class="p">(</span><span class="nb">type</span><span class="p">([])</span>
+<span class="go">(&lt;class &#39;list&#39;&gt;, &lt;class &#39;type&#39;&gt;)</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="nb">type</span><span class="p">(</span><span class="nb">list</span><span class="p">),</span> <span class="nb">type</span><span class="p">(</span><span class="nb">type</span><span class="p">)</span> <span class="c1"># Same, but with type names</span>
+<span class="go">(&lt;class &#39;type&#39;&gt;, &lt;class &#39;type&#39;&gt;)</span>
+</pre></div>
+</div>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">python2</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="nb">type</span><span class="p">(</span><span class="nb">list</span><span class="p">),</span> <span class="nb">type</span><span class="p">(</span><span class="nb">type</span><span class="p">)</span> <span class="c1"># Same, but with type names</span>
+<span class="go">(&lt;type &#39;list&#39;&gt;, &lt;type &#39;type&#39;&gt;)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">type</span><span class="p">(</span><span class="nb">list</span><span class="p">),</span> <span class="nb">type</span><span class="p">(</span><span class="nb">type</span><span class="p">)</span>
+<span class="go">(&lt;type &#39;type&#39;&gt;, &lt;type &#39;type&#39;&gt;)</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li>Types are defined by classes that derive from type.</li>
+<li>User-defined classes are instances of type classes</li>
+<li>User-defined classes are types that generate instances of their own.</li>
+</ul>
 </div>
 </div>
 

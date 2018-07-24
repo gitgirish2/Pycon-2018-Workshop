@@ -5,3 +5,57 @@ Meta Classes
 .. note ::
 
     Work in progress.
+
+Preliminaries
+-------------
+
+.. note ::
+
+    [Metaclasses] are deeper magic than 99% of users should ever worry about. If    you wonder whether you need them, you don’t (the people who actually need th    em
+
+**When will you need it:**
+
+- When you develop a library or an API that will be used by people.
+
+- When you want to enforce a coding standard in a huge application.
+- They can be used to enhance classes with features like tracing, object persis   tence, exception logging 
+
+**If this is the case why bother understand it?**
+
+It demystifies the underlying working of python classes.
+
+.. note ::
+
+    Classes Are Instances of type
+
+- In Python 3.X, user-defined class objects are instances of the object named ty  pe,which is itself a class.
+
+- In Python 2.X, new-style classes inherit from object, which is a subclass of t  ype;classic classes are instances of type and are not created from a class.
+
+Their differences are highlighted in the following code-snippet.
+
+.. code-block:: console
+
+    python3
+
+>>> type([]), type(type([])
+(<class 'list'>, <class 'type'>)
+
+>>> type(list), type(type) # Same, but with type names
+(<class 'type'>, <class 'type'>) 
+
+.. code-block:: console 
+
+    python2
+
+>>> type(list), type(type) # Same, but with type names
+(<type 'list'>, <type 'type'>)
+>>> type(list), type(type)
+(<type 'type'>, <type 'type'>)
+
+- Types are defined by classes that derive from type.
+
+- User-defined classes are instances of type classes
+
+- User-defined classes are types that generate instances of their own.
+
